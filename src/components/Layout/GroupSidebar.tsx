@@ -131,7 +131,7 @@ const GroupSidebar = () => {
   return (
     <article className="h-[calc(100vh-1.5rem)] backdrop-blur w-64 left-3 rounded-xl border-r-2 border-stone-200 flex flex-col py-4 pr-4 justify-start  items-start">
       <div>
-        <h1 className="text-xl mt-1 text-stone-700 font-bold muted">Your Place</h1>
+        <h1 className="text-xl mt-1 text-stone-700 font-bold muted">Welcome, <span className="text-primary">Jamie</span></h1>
       </div>
       <hr className='w-full my-1' />
 
