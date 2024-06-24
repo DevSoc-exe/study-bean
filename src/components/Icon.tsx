@@ -5,15 +5,16 @@ const Icon = ({
   className,
   href
 }: {
-    href: string;
+  href: string;
   children: React.ReactElement;
   className?: string;
 }) => {
   return (
     <Link href={href}>
       <div
-        className={`size-10 mx-auto rounded-full flex justify-center items-center hover:bg-black/20 transition-colors ${className}`}
+        className={`size-10 mx-auto rounded-full flex justify-center items-center hover:border hover:border-primary transition-colors ${className}`}
       >
+
         {children}
       </div>
     </Link>
