@@ -3,6 +3,7 @@ import {
   Bookmark,
   CircleCheckBig,
   Github,
+  LoaderPinwheel,
   Notebook,
   Palette,
   Plus,
@@ -34,6 +35,9 @@ const Sidebar = () => {
         </div>
       </div>
       <div className='mx-auto w-12 space-y-2'>
+        <Icon href='/'>
+        <LoaderPinwheel color='black' className='' />
+        </Icon>
         <Icon href='/'>
           <Palette color='black' />
         </Icon>

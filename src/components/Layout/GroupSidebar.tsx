@@ -1,16 +1,8 @@
 import {
-  AlarmClockCheck,
   AlarmClockMinus,
-  Bookmark,
-  CircleCheckBig,
-  Github,
-  Notebook,
-  Plus,
   Text,
   User,
-  UserRound,
   Users,
-  UserX2,
 } from "lucide-react";
 import Icon from "../Icon";
 import TabListItem from "../TabListItem";
@@ -57,8 +49,8 @@ const GroupSidebar = () => {
   const people = [
     {
       "id": "person301",
-      "name": "Jim",
-      "messages": 0,
+      "name": "Brandon Stark",
+      "messages": 10,
       "href": "/"
     },
     {
@@ -129,9 +121,9 @@ const GroupSidebar = () => {
 
 
   return (
-    <article className="h-[calc(100vh-1.5rem)] backdrop-blur w-64 left-3 rounded-xl border-r-2 border-stone-200 flex flex-col py-4 pr-4 justify-start  items-start">
+    <article className="h-[calc(100vh-1.5rem)] backdrop-blur w-64 left-3 border-r border-stone-200 flex flex-col py-4 px-2 justify-start  items-start">
       <div>
-        <h1 className="text-xl mt-1 text-stone-700 font-bold muted">Welcome, <span className="text-primary">Jamie</span></h1>
+        <h1 className="text-xl mt-1 text-stone-700 font-bold text-accent-foreground"> Hello,<span className="text-primary"> Jamie</span> 👋</h1>
       </div>
       <hr className='w-full my-1' />
 

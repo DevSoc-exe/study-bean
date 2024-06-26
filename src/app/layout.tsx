@@ -4,6 +4,7 @@ import "./globals.css";
 import Sidebar from "@/components/Layout/Sidebar";
 import Image from "next/image";
 import GroupSidebar from '../components/Layout/GroupSidebar';
+import RightSidebar from "@/components/Layout/RightSidebar";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -22,10 +23,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`px-4 relative gap-x-4 h-screen overflow-y-hidden flex justify-start items-center bg-background ${poppins.className}`}>
+      <body className={`px-4 relative gap-2 h-screen overflow-y-hidden flex justify-between items-center bg-background ${poppins.className}`}>
         <Sidebar />
         <GroupSidebar />
+        {/* <PlaygroundSection /> */}
         {children}
+        <RightSidebar />
         {/* <Image
           className="absolute top-0 overflow-x-hidden object-center -z-10 opacity-50 blur-sm"
           src={"/image.jpg"}
