@@ -1,4 +1,5 @@
 import React from 'react'
+import { v4 } from 'uuid';
 
 const Music = () => {
     const nowPlaying = [
@@ -157,7 +158,7 @@ const Music = () => {
                 <div className='overflow-y-scroll pr-6'>
                     {
                         nowPlaying && nowPlaying.map((song) => (
-                            <div className="border-b pt-2">
+                            <div className="border-b pt-2" key={v4()}>
                                 <div className="text-sm flex flex-col w-full">
                                     <div className="text-md font-bold text-stone-700 flex flex-row justify-between items-center w-full">
                                         <h2 className="text-md mt-2 text-stone-700 font-semibold muted">{song.name}</h2>

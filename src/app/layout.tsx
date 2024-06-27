@@ -5,7 +5,7 @@ import Sidebar from "@/components/Layout/Sidebar";
 import Image from "next/image";
 import GroupSidebar from '../components/Layout/GroupSidebar';
 import RightSidebar from "@/components/Layout/RightSidebar";
-
+import { Toaster } from "@/components/ui/toaster"
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["300", "400", "500", "500", "600", "700", "800", "900"],
@@ -36,6 +36,7 @@ export default function RootLayout({
           height={1200}
           alt="background"
         /> */}
+        <Toaster />
       </body>
     </html>
   );
