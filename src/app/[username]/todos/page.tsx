@@ -116,7 +116,7 @@ const Todos = () => {
     return (
         <article className="h-[calc(100vh-1rem)] backdrop-blur w-3/5 left-3 border-r border-stone-200 flex flex-col py-4 px-3 justify-start  items-start">
             <div className="flex justify-between">
-                <h1 className="text-xl mt-1 text-stone-700 font-bold muted">
+                <h1 className="text-xl mt-1 text-stone-700 font-bold muted flex items-center justify-center">
                     <CheckCircle2 className="inline mr-2" color="green" />
                     <span className="text-primary">
                         To-dos
