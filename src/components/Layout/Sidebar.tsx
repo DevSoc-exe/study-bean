@@ -20,7 +20,7 @@ const Sidebar = () => {
         </Icon>
         <hr className='mx-2' />
         <div className='w-10 flex flex-col gap-2'>
-          <Icon href='/'>
+          <Icon href='/todos'>
             <CircleCheckBig color='black' className='size-5' />
           </Icon>
           <Icon href='/'>

@@ -1,15 +1,17 @@
 "use client"
 import {
     ArrowUp,
-    Check,
     CheckCircle2,
-    X,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { typeTodo } from "@/types/ToDo";
 import { Progress } from "@/components/ui/progress";
+import { v4 as uuidv4 } from 'uuid';
+import Todo from "@/components/Todo";
+import { useToast } from "@/components/ui/use-toast";
 
 const Todos = () => {
+    const { toast } = useToast()
     const todos: typeTodo[] = [
         {
             id: "1a79a4d",
@@ -50,16 +52,25 @@ const Todos = () => {
     const [todo, setTodo] = useState<typeTodo[]>(todos)
     const [newTodo, setNewTodo] = useState<string>("")
     const [totalDone, setTotalDone] = useState<number>()
+    // const [isEditing, setIsEditing] = useState<boolean>(false)
 
     useEffect(() => {
         const completed = todo.filter((singleTodo) => singleTodo.isDone !== false)
         setTotalDone(completed.length as number)
     }, [todo])
+
     const handleTodo = (id: string) => {
         console.log(id);
         const filteredTodos = todo.map((singleTodo) => {
             if (singleTodo.id == id) {
                 singleTodo.isDone = singleTodo.isDone ? false : true;
+                if (singleTodo.isDone) {
+                    const todoCompleteTaostMessage = {
+                        title: totalDone && (totalDone < todo.length - 1) ? `Only ${todo.length - (totalDone as number) - 1} left! You got this.` : `Done for the day!`,
+                        description: totalDone && (totalDone < todo.length - 1) ? "Kudos on completing your task!" : "Sit back and relax!",
+                    }
+                    toast(todoCompleteTaostMessage)
+                }
             }
             return singleTodo;
         })
@@ -67,9 +78,43 @@ const Todos = () => {
         console.log(filteredTodos);
     }
 
+    const handleNewTodo = () => {
+        let newTodoTaostMessage = {}
+        if (newTodo.length == 0) {
+            newTodoTaostMessage = {
+                variant: "destructive",
+                title: `The task field can not be null.`,
+                description: `EMT-TF: Empty task field.`,
+            }
+        } else {
+            setTodo([...todo, { id: uuidv4() as string, title: newTodo, isDone: false }]);
+            newTodoTaostMessage = {
+                title: `Added to your list.`,
+                description: `+ ${newTodo}`,
+            }
+        }
+        toast(newTodoTaostMessage);
+        setNewTodo("")
+
+    }
+
+    const handleDeleteTodo = (delId: string, delTitle: string) => {
+        const filteredTodoList = todo.filter((singleTodo) => singleTodo.id != delId)
+        setTodo(filteredTodoList);
+        const delTodoTaostMessage = {
+            title: `Removed from your list.`,
+            description: `- ${delTitle}`,
+        }
+        toast(delTodoTaostMessage);
+    }
+
+    // const handleEditTodo = (editId: string, editTitle: string) => {
+    //     setIsEditing(true);
+    // }
+
 
     return (
-        <article className="h-[calc(100vh-1.5rem)] backdrop-blur w-3/5 left-3 border-r border-stone-200 flex flex-col py-4 px-3 justify-start  items-start">
+        <article className="h-[calc(100vh-1rem)] backdrop-blur w-3/5 left-3 border-r border-stone-200 flex flex-col py-4 px-3 justify-start  items-start">
             <div className="flex justify-between">
                 <h1 className="text-xl mt-1 text-stone-700 font-bold muted">
                     <CheckCircle2 className="inline mr-2" color="green" />
@@ -79,7 +124,7 @@ const Todos = () => {
                 </h1>
             </div>
             <hr className='w-full my-1' />
-            <section className="flex mt-2 flex-col w-full h-full">
+            <section className="flex mt-2 flex-col w-full h-[calc(100%-3.5rem)]">
                 <div className="flex flex-col">
                     <div className="flex   justify-between">
                         <h2 className="text-lg font-medium">Todays Tasks</h2>
@@ -89,50 +134,32 @@ const Todos = () => {
                     </div>
                     <div className="mt-2">
                         <Progress value={totalDone && ((totalDone * 100) / todo.length)} className="w-full">
-
                         </Progress>
                     </div>
                 </div>
                 <hr className="w-full mt-4"></hr>
-                <div className="flex flex-col justify-between h-full">
-                    <div className="transition duration-1000">
+                <div className="flex flex-col justify-between overflow-hidden h-full">
+                    <div className="transition h-full duration-1000 overflow-y-auto scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-primary scrollbar-track-slate-200 pr-2">
                         {todo &&
                             todo.map((todo) => (!todo.isDone &&
-                                <div key={todo.id} className='flex flex-row mt-4 px-2 rounded-full justify-start gap-2 items-center py-2 border'>
-                                    <div id={todo.id} className="p-1 border hover:bg-emerald-400 rounded-full size-8 flex items-center justify-center transition-colors hover:cursor-pointer hover:border-none" onClick={() => handleTodo(todo.id as string)}>
-                                        <Check color="white" strokeWidth={4} className="size-5 peer" />
-                                    </div>
-                                    <span className="font-semibold text-md transition ease-in-out duration-300">
-                                        {todo.title}
-                                    </span>
-                                </div>
+                                <Todo title={todo.title} classname="" id={todo.id} onclick={() => handleTodo(todo.id as string)} isDone={todo.isDone} onDelete={() => handleDeleteTodo(todo.id as string, todo.title as string)} />
                             ))
                         }
                         {totalDone != todo.length && <hr className="w-full mt-4"></hr>}
                         {todo &&
                             todo.map((todo) => (todo.isDone &&
-                                <div key={todo.id} className="flex flex-row mt-4 px-2 rounded-full justify-start gap-2 items-center py-2 border bg-green-300">
-                                    <div id={todo.id} className="p-2 hover:bg-white rounded-full size-8 flex items-center justify-center transition-colors hover:cursor-pointer hover:border-none" onClick={() => handleTodo(todo.id as string)}>
-                                        <X color="green" strokeWidth={4} className="size-5 peer" />
-                                    </div>
-                                    <span className="font-semibold line-through text-md transition ease-in-out duration-300">
-                                        {todo.title}
-                                    </span>
-                                </div>
-                            ))}
+                                <Todo title={todo.title} classname="" id={todo.id} onclick={() => handleTodo(todo.id as string)} isDone={todo.isDone} onDelete={() => handleDeleteTodo(todo.id as string, todo.title as string)} />
+                            ))
+                        }
                     </div>
 
-                    <div className="flex flex-row justify-center items-center gap-2 mt-4">
+                    <form className="flex flex-row justify-center items-center gap-2 mt-5"
+                        onSubmit={(e) => { e.preventDefault() }}>
                         <input type="text" name="newTaskBar" id="newTaskbar" className="px-6 rounded-full py-4 border border-emerald-700 w-full focus:outline-none" placeholder="Enter new task.." value={newTodo} onChange={(e) => setNewTodo(e.target.value as string)} />
-                        <button className="py-4 px-4 rounded-full border border-emerald-700 hover:bg-emerald-400" onClick={
-                            (e) => {
-                                setTodo([...todo, { id: "126nodosdq", title: newTodo, isDone: false }]);
-                                setNewTodo("")
-                            }
-                        }>
+                        <button type="submit" className="py-4 px-4 rounded-full border border-emerald-700 hover:bg-emerald-400" onClick={handleNewTodo} >
                             <ArrowUp strokeWidth={3} />
                         </button>
-                    </div>
+                    </form>
                 </div>
             </section>
         </article >
