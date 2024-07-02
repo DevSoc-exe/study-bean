@@ -1,7 +1,13 @@
+"use client"
 import { AlarmClock } from 'lucide-react'
-import React from 'react'
+import React, { useState } from 'react'
+
 
 const Pomodoro = () => {
+    const [percentage, setPercentage] = useState(20);
+    const strokeDasharray = 2 * Math.PI * 225; // 2 * Math.PI * 45 (circle's circumference)
+    const strokeDashoffset = percentage ? strokeDasharray - (strokeDasharray * percentage) / 100 : 0;
+
     return (
         <article className="h-[calc(100vh-1rem)] backdrop-blur w-3/5 left-3 border-r border-stone-200 flex flex-col py-4 px-3 justify-start  items-start">
             <div className="flex justify-between">
@@ -16,11 +22,27 @@ const Pomodoro = () => {
             <section className="flex mt-2 gap-2 flex-col w-full h-[calc(100%-3.5rem)] border p-4">
                 <div className='flex flex-row w-full justify-between items-center gap-2 h-2/3'>
                     <div className='h-full aspect-square flex items-center justify-center'>
-                        <div className='h-[95%] flex items-center justify-center aspect-square border rounded-full p-0.5'>
-                            <div className='h-[95%] aspect-square border rounded-full m-auto'>
-
-                            </div>
-                        </div>
+                        <svg className="w-full h-full transform rotate-180 border">
+                            <circle
+                                cx="50%"
+                                cy="50%"
+                                r="225"
+                                strokeWidth="10"
+                                fill="none"
+                            />
+                            <circle
+                                cx="50%"
+                                cy="50%"
+                                r="225"
+                                stroke="#2c2c2c"
+                                strokeWidth="10"
+                                fill="none"
+                                strokeDasharray={strokeDasharray}
+                                strokeDashoffset={strokeDashoffset}
+                                strokeLinecap="round"
+                                className="transition-all duration-300"
+                            />
+                        </svg>
                     </div>
                     <div className='w-full'>
                         presets
