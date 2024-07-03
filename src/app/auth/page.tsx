@@ -90,7 +90,7 @@ export default function Authentication() {
 
     return (
         <div className="w-full flex lg:h-full xl:min-h-[800px]">
-            <div className="absolute inset-0 -z-10 h-full w-full bg-white rotate-45">
+            <div className="fixed inset-0 -z-10 h-full w-full bg-white rotate-45">
                 <motion.div
                     className="h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"
                     initial={{ y: 0 }} // Initial position
@@ -104,7 +104,7 @@ export default function Authentication() {
                     transition={{ duration: 120, repeat: Infinity, repeatType: "loop" }}
                 ></motion.div>
             </div>
-            <div className="flex w-3/5  items-center justify-center py-12">
+            <div className="flex w-full  lg:w-3/5 items-center justify-center py-12">
                 <form
                     className="mx-auto grid w-[450px] gap-6 p-4"
                     onSubmit={isRegistered ? loginForm.handleSubmit(handleLogin) : registerForm.handleSubmit(handleRegister)}>
@@ -136,12 +136,7 @@ export default function Authentication() {
                             <div className="felx flex-col gap-2">
                                 <div className="flex items-center mb-1">
                                     <Label htmlFor="password">Password</Label>
-                                    <Link
-                                        href="/forgot-password"
-                                        className="ml-auto inline-block text-sm underline"
-                                    >
-                                        Forgot your password?
-                                    </Link>
+
                                 </div>
 
                                 <Input
@@ -198,12 +193,7 @@ export default function Authentication() {
                             <div className="felx flex-col gap-2">
                                 <div className="flex items-center mb-1">
                                     <Label htmlFor="password">Password</Label>
-                                    <Link
-                                        href="/forgot-password"
-                                        className="ml-auto inline-block text-sm underline"
-                                    >
-                                        Forgot your password?
-                                    </Link>
+
                                 </div>
 
                                 <Input
@@ -222,6 +212,12 @@ export default function Authentication() {
                                     ))}
                                 </div>
                             )}
+                            <Link
+                                href="/forgot-password"
+                                className="m-auto inline-block text-sm underline"
+                            >
+                                Forgot your password?
+                            </Link>
                             <Button
                                 type="submit"
                                 className="w-1/3 mx-auto mt-2"
