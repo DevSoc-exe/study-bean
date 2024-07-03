@@ -67,6 +67,27 @@
   }
 }
 
+/* HTML: <div class="loader"></div> */
+.loader {
+  height: 50px;
+  aspect-ratio: 2;
+  border: 10px solid transparent;
+  scale: 50%;
+  box-sizing: border-box;
+  background:
+    radial-gradient(farthest-side,#fff 100%,#0000) left/20px 20px,
+    radial-gradient(farthest-side,#fff 100%,#0000) left/20px 20px,
+    radial-gradient(farthest-side,#fff 100%,#0000) center/20px 20px,
+    radial-gradient(farthest-side,#fff 100%,#0000) right/20px 20px,
+    transparent;
+  background-repeat: no-repeat;
+  filter: blur(1px) contrast(10);
+  box-shadow: none;
+  animation: l14 1s infinite;
+}
+@keyframes l14 {
+  100%  {background-position:right,left,center,right}
+}
 
 @layer base {
   * {
