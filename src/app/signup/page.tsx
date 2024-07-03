@@ -17,7 +17,7 @@ const RegisterForm = () => {
     },
   });
 
-  
+
 
   const Register = async (email: string, password: string, username: string) => {
     try {
