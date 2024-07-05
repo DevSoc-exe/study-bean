@@ -121,8 +121,8 @@ export default function Authentication() {
   };
 
   return (
-    <div className="w-full flex lg:h-full xl:min-h-[800px] max-w overflow-x-hidden">
-      <div className="absolute inset-0 -z-10 h-full w-full bg-white rotate-45 overflow-x-hidden">
+    <div className="w-full flex lg:h-full xl:min-h-[800px]">
+      <div className="fixed  inset-0 -z-10 h-full w-full bg-white rotate-45">
         <motion.div
           className="h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"
           initial={{ y: 0 }} // Initial position
@@ -139,12 +139,7 @@ export default function Authentication() {
       <div className="flex w-3/5  items-center justify-center py-12">
         <form
           className="mx-auto grid w-[450px] gap-6 p-4"
-          onSubmit={
-            isRegistered
-              ? loginForm.handleSubmit(handleLogin)
-              : registerForm.handleSubmit(handleRegister)
-          }
-        >
+          onSubmit={isRegistered ? loginForm.handleSubmit(handleLogin) : registerForm.handleSubmit(handleRegister)}>
           <div className="flex flex-col gap-2 text-center">
             <h1 className="text-3xl font-bold">
               {isRegistered ? "Login" : "Register"}
@@ -192,15 +187,16 @@ export default function Authentication() {
               </div>
               {Object.keys(loginForm.formState.errors).length > 0 && (
                 <div className="text-red-500">
-                  {Object.values(loginForm.formState.errors).map(
-                    (error, index) => (
-                      <FormError key={index} message={error.message} />
-                    )
-                  )}
+                  {Object.values(loginForm.formState.errors).map((error, index) => (
+                    <FormError key={index} message={error.message} />
+                  ))}
                 </div>
               )}
-              <Button disabled={isLoading} type="submit" className="w-1/3 mx-auto mt-2">
-                {isLoading ? <div className="loader"></div> : <>Login</>}
+              <Button
+                type="submit"
+                className="w-1/3 mx-auto mt-2"
+              >
+                Login
               </Button>
             </div>
           ) : (
@@ -253,20 +249,16 @@ export default function Authentication() {
               </div>
               {Object.keys(registerForm.formState.errors).length > 0 && (
                 <div className="text-red-500">
-                  {Object.values(registerForm.formState.errors).map(
-                    (error, index) => (
-                      <FormError key={index} message={error.message} />
-                    )
-                  )}
+                  {Object.values(registerForm.formState.errors).map((error, index) => (
+                    <FormError key={index} message={error.message} />
+                  ))}
                 </div>
               )}
-              <FormError message={error} />
               <Button
-                disabled={isLoading}
                 type="submit"
                 className="w-1/3 mx-auto mt-2"
               >
-                {isLoading ? <div className="loader"></div> : <>Register</>}
+                Register
               </Button>
             </div>
           )}
@@ -293,6 +285,7 @@ export default function Authentication() {
             )}
           </div>
         </form>
+
       </div>
       <div className="hidden bg-muted lg:block w-2/5">
         <Image
