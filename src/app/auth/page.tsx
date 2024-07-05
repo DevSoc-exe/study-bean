@@ -58,13 +58,13 @@ export default function Authentication() {
           message: "Some Error Occured",
         };
       }
+      console.log(error.response.data)
       return error.response.data;
     }
   };
 
   const handleRegister = async (data: z.infer<typeof RegisterFormSchema>) => {
     console.log("in handle register");
-    setError(undefined);
     setIsLoading(true);
     const validatedFields = RegisterFormSchema.safeParse(data);
 
@@ -74,11 +74,13 @@ export default function Authentication() {
     const { email, username, password } = validatedFields.data;
     const res = await Register(email, username, password);
     setIsLoading(false);
+    console.log("RESPONSE: ", res)
     if (!res.success) {
+      console.log("HERE", res.message)
       setError(res.message);
       return;
     }
-
+    setError(undefined)
     router.push("/todos");
     return;
   };
@@ -139,7 +141,12 @@ export default function Authentication() {
       <div className="flex w-3/5  items-center justify-center py-12">
         <form
           className="mx-auto grid w-[450px] gap-6 p-4"
-          onSubmit={isRegistered ? loginForm.handleSubmit(handleLogin) : registerForm.handleSubmit(handleRegister)}>
+          onSubmit={
+            isRegistered
+              ? loginForm.handleSubmit(handleLogin)
+              : registerForm.handleSubmit(handleRegister)
+          }
+        >
           <div className="flex flex-col gap-2 text-center">
             <h1 className="text-3xl font-bold">
               {isRegistered ? "Login" : "Register"}
@@ -186,16 +193,16 @@ export default function Authentication() {
                 />
               </div>
               {Object.keys(loginForm.formState.errors).length > 0 && (
-                <div className="text-red-500">
-                  {Object.values(loginForm.formState.errors).map((error, index) => (
-                    <FormError key={index} message={error.message} />
-                  ))}
+                <div className="space-y-1">
+                  {Object.values(loginForm.formState.errors).map(
+                    (error: any, index) => (
+                      <FormError key={index} message={error.message} />
+                    )
+                  )}
                 </div>
               )}
-              <Button
-                type="submit"
-                className="w-1/3 mx-auto mt-2"
-              >
+              {error && <FormError message={error} />}
+              <Button type="submit" className="w-1/3 mx-auto mt-2">
                 Login
               </Button>
             </div>
@@ -248,16 +255,16 @@ export default function Authentication() {
                 />
               </div>
               {Object.keys(registerForm.formState.errors).length > 0 && (
-                <div className="text-red-500">
-                  {Object.values(registerForm.formState.errors).map((error, index) => (
-                    <FormError key={index} message={error.message} />
-                  ))}
+                <div className="space-y-1">
+                  {Object.values(registerForm.formState.errors).map(
+                    (error: any, index) => (
+                      <FormError key={index} message={error.message} />
+                    )
+                  )}
                 </div>
               )}
-              <Button
-                type="submit"
-                className="w-1/3 mx-auto mt-2"
-              >
+              {error && <FormError message={error} />}
+              <Button type="submit" className="w-1/3 mx-auto mt-2">
                 Register
               </Button>
             </div>
@@ -285,7 +292,6 @@ export default function Authentication() {
             )}
           </div>
         </form>
-
       </div>
       <div className="hidden bg-muted lg:block w-2/5">
         <Image
