@@ -1,3 +1,4 @@
+"use client"
 import {
   AlarmClockMinus,
   Text,
@@ -6,8 +7,15 @@ import {
 } from "lucide-react";
 import Icon from "../Icon";
 import TabListItem from "../TabListItem";
+import { useEffect, useState } from "react";
+import { api } from "@/lib/api";
 
-const GroupSidebar = () => {
+const GroupSidebar = (
+  { userID
+  }: {
+    userID: string;
+  }
+) => {
 
   const groups = [
     {
@@ -118,12 +126,25 @@ const GroupSidebar = () => {
     "nextInQueue": "Ocean Waves",
     "totalTime": "3:45"
   };
+  const [userName, setUsername] = useState<string>("yo")
+  const getUserData = async (userID: string) => {
+    try {
+      const response = await api.get(`/user/${userID}`)
+      if (response.data.success) {
+        setUsername(response.data.data.username as string)
+      }
+    } catch (error) {
 
+    }
+  }
+  useEffect(() => {
+    getUserData(userID)
+  }, [userName])
 
   return (
     <article className="h-[calc(100vh-1.5rem)] backdrop-blur w-64 left-3 border-r border-stone-200 flex flex-col py-4 px-2 justify-start  items-start">
       <div>
-        <h1 className="text-xl mt-1 text-stone-700 font-bold text-accent-foreground"> Hello,<span className="text-primary"> Jamie</span> 👋</h1>
+        <h1 className="text-xl mt-1 text-stone-700 font-bold text-accent-foreground"> Hello, <span className="text-primary"> {userName}</span> 👋</h1>
       </div>
       <hr className='w-full my-1' />
 

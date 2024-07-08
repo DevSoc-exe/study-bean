@@ -52,8 +52,10 @@ const Todo = (
                         {title}
                     </span>
                 </div>
-                <div className='relative flex-row justify-end items-center gap-1 hidden peer-hover:flex group-hover:flex'>
-                    <PriorityDropDwon />
+                <div className='hidden flex-row justify-end items-center gap-1 peer-hover:flex group-hover:flex'>
+                    <div className='relative'>
+                        <PriorityDropDwon />
+                    </div>
                     <Icon href="" className='p-1 size-8'>
                         <Pencil className='size-4' />
                     </Icon>

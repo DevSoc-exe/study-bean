@@ -78,8 +78,8 @@ export default function Authentication() {
       setError(res.message);
       return;
     }
-
-    router.push("/todos");
+    console.log(res);
+    router.push(`/todos`);
     return;
   };
 
@@ -90,6 +90,7 @@ export default function Authentication() {
         email,
         password,
       });
+      console.log(response);
       return response.data;
     } catch (error: any) {
       if (!error.response) {
@@ -117,7 +118,7 @@ export default function Authentication() {
       setError(res.message);
       return;
     }
-    router.push("/todos");
+    router.push(`/user/${res.user.id}/todos`);
   };
 
   return (
