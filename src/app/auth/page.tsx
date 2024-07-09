@@ -14,11 +14,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { api } from "@/lib/api";
 import FormError from "@/components/FormError";
 import { useRouter } from "next/navigation";
+import { useStore } from "@/lib/store";
 
 export default function Authentication() {
   const [error, setError] = useState<string | undefined>();
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const { setEmail, setIsLoggedIn, setUsername, setUserId } = useStore();
+
 
   const registerForm = useForm<z.infer<typeof RegisterFormSchema>>({
     resolver: zodResolver(RegisterFormSchema),
@@ -90,8 +93,9 @@ export default function Authentication() {
         email,
         password,
       });
-      console.log(response);
-      return response.data;
+      if(response.data.success) {
+        return response.data;
+      }
     } catch (error: any) {
       if (!error.response) {
         return {
@@ -118,7 +122,14 @@ export default function Authentication() {
       setError(res.message);
       return;
     }
-    router.push(`/user/${res.user.id}/todos`);
+
+    localStorage.setItem("uid", res.user.user_id)
+    setEmail(res.user.email);
+    setUserId(res.user.user_id);
+    setUsername(res.user.username);
+    setIsLoggedIn(true);
+
+    router.push(`/user/${res.user.username}/todos`);
   };
 
   return (

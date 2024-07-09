@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     description: "Next Frontend",
 };
 
+// @kanishk smart boy :kiss
 export default function PlaygroundLayout({
     children,
     params// will be a page or nested layout
@@ -20,12 +21,12 @@ export default function PlaygroundLayout({
     children: React.ReactNode
     params: any
 }) {
-    const userID = params.username as string
+    const username = params.username as string
     return (
         <html lang="en">
             <body className={`px-4 relative gap-2 h-screen overflow-y-hidden flex justify-between items-center bg-background ${poppins.className}`}>
                 <Sidebar />
-                <GroupSidebar userID={userID} />
+                <GroupSidebar username={username} />
                 {children}
                 <RightSidebar />
                 <Toaster />

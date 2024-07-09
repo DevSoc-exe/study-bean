@@ -44,7 +44,7 @@ const Todo = (
     if (!isDone) {
         return (
             <div key={id} className={`flex flex-row mt-2 px-1 rounded-full justify-between items-center py-1 peer group border peer ${priorityBGColor} ${classname ? classname : ""}`}>
-                <div className='flex flex-row justify-start items-center gap-2'>
+                <div className='text-black flex flex-row justify-start items-center gap-2'>
                     <div id={id} className="p-1 border hover:bg-emerald-400 rounded-full size-8 flex items-center justify-center transition-colors hover:cursor-pointer hover:border-none" onClick={onclick}>
                         <Check color="white" strokeWidth={4} className="size-5 peer" />
                     </div>
@@ -53,10 +53,9 @@ const Todo = (
                     </span>
                 </div>
                 <div className='hidden flex-row justify-end items-center gap-1 peer-hover:flex group-hover:flex'>
-                    <div className='relative'>
                         <PriorityDropDwon />
-                    </div>
-                    <Icon href="" className='p-1 size-8'>
+
+                    <Icon href="" onclick={onEdit} className='p-1 size-8'>
                         <Pencil className='size-4' />
                     </Icon>
                     <Icon href="" className='p-1 size-8 hover:bg-destructive hover:border-none group/cirlce'>
@@ -78,7 +77,7 @@ const Todo = (
                     </span>
                 </div>
                 <div className='flex-row justify-end items-center gap-1 hidden peer-hover:flex group-hover:flex'>
-                    <Icon href='' className='p-1 size-8 hover:bg-accent'>
+                    <Icon href='' onclick={onEdit} className='p-1 size-8 hover:bg-accent'>
                         <Pencil className='size-4' />
                     </Icon>
                     <Icon href='' className='p-1 size-8 hover:bg-destructive hover:border-none group/cirlce'>

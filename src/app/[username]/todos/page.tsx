@@ -160,13 +160,13 @@ const Todos = () => {
                     <div className="transition h-full duration-1000 overflow-y-auto scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-primary scrollbar-track-slate-200 pr-2">
                         {todo &&
                             todo.map((todo) => (!todo.isCompleted &&
-                                <Todo title={todo.todo} classname="" priority={todo.priority} id={todo.id} onclick={() => handleTodoBehaviour(todo.id as string)} isDone={todo.isCompleted} onDelete={() => handleDeleteTodo(todo.id as string, todo.todo as string)} />
+                                <Todo title={todo.todo_body} classname="" priority={todo.priority} id={todo.id} onclick={() => handleTodoBehaviour(todo.id as string)} isDone={todo.isCompleted} onDelete={() => handleDeleteTodo(todo.id as string, todo.todo_body as string)} />
                             ))
                         }
                         {totalDone != todo.length && <hr className="w-full mt-4"></hr>}
                         {todo &&
                             todo.map((todo) => (todo.isCompleted &&
-                                <Todo title={todo.todo} classname="" priority={todo.priority} id={todo.id} onclick={() => handleTodoBehaviour(todo.id as string)} isDone={todo.isCompleted} onDelete={() => handleDeleteTodo(todo.id as string, todo.todo as string)} />
+                                <Todo title={todo.todo_body} classname="" priority={todo.priority} id={todo.id} onclick={() => handleTodoBehaviour(todo.id as string)} isDone={todo.isCompleted} onDelete={() => handleDeleteTodo(todo.id as string, todo.todo_body as string)} />
                             ))
                         }
                     </div>

@@ -6,7 +6,7 @@ export enum TodoPriority {
 
 export interface typeTodo {
   id: string;
-  todo: string;
+  todo_body: string;
   isCompleted: boolean;
   priority: TodoPriority;
 }

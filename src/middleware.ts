@@ -4,6 +4,7 @@ import { jwtDecode, JwtPayload } from "jwt-decode";
 interface CustomJWTPayload extends JwtPayload {
   email?: string;
   user_id?: string;
+  username?: string;
 }
 
 export function middleware(request: NextRequest) {
@@ -15,22 +16,23 @@ export function middleware(request: NextRequest) {
   }
   try {
     const path = request.nextUrl.pathname;
-    
+
     let pathSections: string[] = [];
-    let userIDFromParams: string = "";
+    let usernameFromParams: string = "";
     if (path != "") {
-      pathSections = path.split("/");      
+      pathSections = path.split("/");
       if (pathSections[1] == "user") {
-        userIDFromParams = pathSections[2];
+        usernameFromParams = pathSections[2];
       }
     }
 
     const userToken = authTokenFromCookie.split("Bearer+")[1];
     const decodedToken = jwtDecode<CustomJWTPayload>(userToken);
     // const email = decodedToken ? (decodedToken.email as string) : "";
-    const userId = decodedToken ? (decodedToken.user_id as string) : "";
-    
-    if (userId != userIDFromParams) {
+    // const userId = decodedToken ? (decodedToken.user_id as string) : "";
+    const username = decodedToken ? (decodedToken.username as string) : "";
+
+    if (username != usernameFromParams) {
       return NextResponse.redirect(new URL("/auth", request.url));
     }
   } catch (err) {
