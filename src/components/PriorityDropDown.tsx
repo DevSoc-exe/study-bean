@@ -38,7 +38,7 @@ export function PriorityDropDwon({
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="outline" className={todoPriorityColorCode[priority]}>{priority as string}</Button>
+                <Button variant="outline" className={`rounded-full ${todoPriorityColorCode[priority]}`}>{priority as string}</Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56">
                 <DropdownMenuLabel>Select Priority</DropdownMenuLabel>
