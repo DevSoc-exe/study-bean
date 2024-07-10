@@ -1,4 +1,4 @@
-import type { Config } from "tailwindcss"
+import type { Config } from "tailwindcss";
 
 const config = {
   darkMode: ["class"],
@@ -22,7 +22,8 @@ const config = {
         slightHover: "0px 0px 15px -5px rgba(10,10,10,0.75)",
       },
       backgroundImage: {
-        'fader': 'linear-gradient(0deg, rgba(255,255,255,1) 24%, rgba(186,243,255,0) 100%)',
+        fader:
+          "linear-gradient(0deg, rgba(255,255,255,1) 24%, rgba(186,243,255,0) 100%)",
       },
       colors: {
         border: "hsl(var(--border))",
@@ -80,7 +81,13 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    require("tailwind-scrollbar")({
+      nocompatible: true,
+      preferredStrategy: "pseudoelements",
+    }),
+  ],
 } satisfies Config;
 
-export default config
+export default config;
