@@ -1,5 +1,5 @@
 "use client";
-import { ArrowUp, CheckCircle2 } from "lucide-react";
+import { ArrowUp, CheckCircle2, ChevronUp, LucideArrowUpNarrowWide } from "lucide-react";
 import { TodoPriority, typeTodo } from "@/types/ToDo";
 import { Progress } from "@/components/ui/progress";
 import Todo from "@/components/Todo";
@@ -12,6 +12,16 @@ import { api } from "@/lib/api";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 import Spinner from "@/components/ui/spinner";
+import { Separator } from "@/components/ui/separator";
+import { Badge } from "@/components/ui/badge";
+import { PriorityDropDwon } from "@/components/PriorityDropDown";
+
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 
 const Todos = () => {
@@ -20,6 +30,12 @@ const Todos = () => {
   const [todo, setTodos] = useState<typeTodo[]>(todos);
   const [newTodo, setNewTodo] = useState<string>("");
   const [totalDone, setTotalDone] = useState<number>();
+  const [todoPriorityInDialog, setTodoPriorityInDialog] = useState<TodoPriority>(TodoPriority.Low);
+
+  const handleTodoPriorityEdit = (priority: TodoPriority) => {
+    setTodoPriorityInDialog(priority)
+  }
+
 
   const fetcher = async (url: string) => {
     try {
@@ -136,8 +152,8 @@ const Todos = () => {
           title: `Updated Your Todo successfully`,
           description: `- ${todo_body}`,
         };
-        setTodos(newTodos)
-        toast(updateMessage)
+        setTodos(newTodos);
+        toast(updateMessage);
       }
     } catch (error) {
       const updateMessageFailed = {
@@ -246,13 +262,33 @@ const Todos = () => {
             className="flex flex-row justify-center items-center gap-2 mt-5"
             onSubmit={addTodoForm.handleSubmit(handleNewTodo)}
           >
-            <input
-              {...addTodoForm.register("todo")}
-              id="todo"
-              type="text"
-              className="px-6 rounded-full py-4 border border-emerald-700 w-full focus:outline-none"
-              placeholder="Enter new task..."
-            />
+            <div className="px-6 rounded-full flex py-4 gap-x-2 border border-emerald-700 w-full ">
+              <div className="relative flex group items-center justify-center cursor-pointer gap-x-1">
+                {/* <span>Priority: </span> */}
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <PriorityDropDwon
+                        priority={todoPriorityInDialog}
+                        onPriorityChange={handleTodoPriorityEdit}
+                      />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Set Your Todo Priority.</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+
+              </div>
+              <div className="h-8 my-auto w-px mx-1 bg-gray-300"></div>
+              <input
+                {...addTodoForm.register("todo")}
+                id="todo"
+                type="text"
+                className="focus:outline-none w-full"
+                placeholder="Enter new task..."
+              />
+            </div>
 
             <button
               type="submit"
