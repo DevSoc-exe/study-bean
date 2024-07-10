@@ -18,95 +18,95 @@ import { useStore } from "@/lib/store";
 import { ReloadIcon } from "@radix-ui/react-icons";
 
 export default function Authentication() {
-  const [error, setError] = useState<string | undefined>();
-  const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
-  const { setEmail, setIsLoggedIn, setUsername, setUserId } = useStore();
+    const [error, setError] = useState<string | undefined>();
+    const [isLoading, setIsLoading] = useState(false);
+    const router = useRouter();
+    const { setEmail, setIsLoggedIn, setUsername, setUserId } = useStore();
 
 
-  const registerForm = useForm<z.infer<typeof RegisterFormSchema>>({
-    resolver: zodResolver(RegisterFormSchema),
-    defaultValues: {
-      email: "",
-      username: "",
-      password: "",
-    },
-  });
+    const registerForm = useForm<z.infer<typeof RegisterFormSchema>>({
+        resolver: zodResolver(RegisterFormSchema),
+        defaultValues: {
+            email: "",
+            username: "",
+            password: "",
+        },
+    });
 
-  const loginForm = useForm<z.infer<typeof LoginSchema>>({
-    resolver: zodResolver(LoginSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
+    const loginForm = useForm<z.infer<typeof LoginSchema>>({
+        resolver: zodResolver(LoginSchema),
+        defaultValues: {
+            email: "",
+            password: "",
+        },
+    });
 
-  const [isRegistered, setisRegistered] = useState<boolean>(false);
+    const [isRegistered, setisRegistered] = useState<boolean>(false);
 
-  const Register = async (
-    email: string,
-    username: string,
-    password: string
-  ) => {
-    try {
-      const res = await api.post("/signup", {
-        email,
-        username,
-        password,
-      });
-      return res;
-    } catch (error: any) {
-      if (!error.response) {
-        return {
-          success: false,
-          message: "Some Error Occured",
-        };
-      }
-      return error.response.data;
-    }
-  };
+    const Register = async (
+        email: string,
+        username: string,
+        password: string
+    ) => {
+        try {
+            const res = await api.post("/signup", {
+                email,
+                username,
+                password,
+            });
+            return res;
+        } catch (error: any) {
+            if (!error.response) {
+                return {
+                    success: false,
+                    message: "Some Error Occured",
+                };
+            }
+            return error.response.data;
+        }
+    };
 
-  const handleRegister = async (data: z.infer<typeof RegisterFormSchema>) => {
-    console.log("in handle register");
-    setError(undefined);
-    setIsLoading(true);
-    const validatedFields = RegisterFormSchema.safeParse(data);
+    const handleRegister = async (data: z.infer<typeof RegisterFormSchema>) => {
+        console.log("in handle register");
+        setError(undefined);
+        setIsLoading(true);
+        const validatedFields = RegisterFormSchema.safeParse(data);
 
-    if (!validatedFields.success) {
-      return { error: "Invalid Form Fields" };
-    }
-    const { email, username, password } = validatedFields.data;
-    const res = await Register(email, username, password);
-    setIsLoading(false);
-    if (!res.success) {
-      setError(res.message);
-      return;
-    }
-    console.log(res);
-    router.push(`/todos`);
-    return;
-  };
+        if (!validatedFields.success) {
+            return { error: "Invalid Form Fields" };
+        }
+        const { email, username, password } = validatedFields.data;
+        const res = await Register(email, username, password);
+        setIsLoading(false);
+        if (!res.success) {
+            setError(res.message);
+            return;
+        }
+        console.log(res);
+        router.push(`/todos`);
+        return;
+    };
 
-  const Login = async (email: string, password: string) => {
-    setError(undefined);
-    try {
-      const response = await api.post("/login", {
-        email,
-        password,
-      });
-      if(response.data.success) {
-        return response.data;
-      }
-    } catch (error: any) {
-      if (!error.response) {
-        return {
-          success: false,
-          message: "Some Error Occured",
-        };
-      }
-      return error.response.data;
-    }
-  };
+    const Login = async (email: string, password: string) => {
+        setError(undefined);
+        try {
+            const response = await api.post("/login", {
+                email,
+                password,
+            });
+            if (response.data.success) {
+                return response.data;
+            }
+        } catch (error: any) {
+            if (!error.response) {
+                return {
+                    success: false,
+                    message: "Some Error Occured",
+                };
+            }
+            return error.response.data;
+        }
+    };
 
   const handleLogin = async (data: z.infer<typeof LoginSchema>) => {
     console.log("in handle register");
@@ -123,11 +123,11 @@ export default function Authentication() {
       return;
     }
 
-    localStorage.setItem("uid", res.user.user_id)
-    setEmail(res.user.email);
-    setUserId(res.user.user_id);
-    setUsername(res.user.username);
-    setIsLoggedIn(true);
+        localStorage.setItem("uid", res.user.user_id)
+        setEmail(res.user.email);
+        setUserId(res.user.user_id);
+        setUsername(res.user.username);
+        setIsLoggedIn(true);
 
     setIsLoading(false);
     router.push(`/user/${res.user.username}/todos`);

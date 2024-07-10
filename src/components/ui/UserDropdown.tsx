@@ -2,17 +2,18 @@ import { motion } from "framer-motion";
 import { Dispatch, SetStateAction } from "react";
 import { IconType } from "react-icons";
 import { cn } from "@/lib/utils";
+import { v4 } from "uuid";
 
 const SidebarDropdown = ({
-    elements,
-    className,
-    setOpen,
-    open
-} : {
-    elements: DropdownElement[]
-    className: string
-    setOpen: Dispatch<SetStateAction<boolean>>
-    open: boolean
+  elements,
+  className,
+  setOpen,
+  open
+}: {
+  elements: DropdownElement[]
+  className: string
+  setOpen: Dispatch<SetStateAction<boolean>>
+  open: boolean
 }
 ) => {
   //   const [open, setOpen] = useState(false);
@@ -32,6 +33,7 @@ const SidebarDropdown = ({
         elements.map((element) => {
           return (
             <Option
+              key={v4()}
               setOpen={setOpen}
               Icon={element.icon}
               text={element.text}

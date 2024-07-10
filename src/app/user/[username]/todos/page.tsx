@@ -73,9 +73,8 @@ const Todos = () => {
           const todoCompleteTaostMessage = {
             title:
               totalDone && totalDone < todo.length - 1
-                ? `Only ${
-                    todo.length - (totalDone as number) - 1
-                  } left! You got this.`
+                ? `Only ${todo.length - (totalDone as number) - 1
+                } left! You got this.`
                 : `Done for the day!`,
             description:
               totalDone && totalDone < todo.length - 1
