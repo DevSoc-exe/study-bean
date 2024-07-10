@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button"
 import {
     Dialog,
+    DialogClose,
     DialogContent,
     DialogDescription,
     DialogFooter,
@@ -9,6 +10,18 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
+
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Pencil } from "lucide-react"
@@ -35,9 +48,8 @@ export function ViewTodoDialog({
     const [todoPriorityInDialog, setTodoPriorityInDialog] = useState<TodoPriority>(priority)
     const [isTodoUpdated, setIsTodoUpdated] = useState<boolean>(false)
 
-
     const handleTodoTextEdit = (e: any) => {
-        if (e.target.value == todoText) {
+        if (e.target.value == todoText && priority === todoPriorityInDialog) {
             setIsTodoUpdated(false);
         } else {
             setIsTodoUpdated(true);
@@ -45,25 +57,41 @@ export function ViewTodoDialog({
         setTodoContentInDialog(e.target.value)
     }
 
-
-    const handleTodoPriorityEdit = () => {
-        if (todoPriorityInDialog == todoText) {
+    const handleTodoPriorityEdit = (inpPriority: TodoPriority) => {
+        if (inpPriority === priority && todoText == todoContentInDialog) {
             setIsTodoUpdated(false);
         } else {
             setIsTodoUpdated(true);
         }
+        setTodoPriorityInDialog(inpPriority)
     }
 
-    const handleTodoUpdate = () => {
+    const handleTodoUpdateSubmission = async () => {
 
         const updatedTodo = {
             "todo": todoContentInDialog,
             "priority": todoPriorityInDialog
         }
 
-        // const updateResponse = api.put(`/todo/${todoId}`, updatedTodo)
+        console.log(updatedTodo);
+
+        try {
+            const updateResponse = await api.put(`/todo/${todoId}`, updatedTodo).then(
+                (res) => res.data
+            )
+            console.log(updateResponse);
+            if (updateResponse.success) {
+                console.log("Update Successful");
+            } else {
+                console.log("Update Failed");
+            }
+        } catch (error) {
+            console.log("Some error occured: ", error);
+        }
+
     }
     return (
+
         <Dialog>
             <DialogTrigger asChild>
                 <Button variant="outline" className="size-8 p-0 mx-auto rounded-full flex justify-center items-center hover:border hover:border-primary transition-colors">
@@ -94,9 +122,34 @@ export function ViewTodoDialog({
                         </div>
                     </div>
                 </div>
-                <DialogFooter>
+                <DialogFooter className="justify-between w-full flex-row">
+
+                    <AlertDialog>
+                        <AlertDialogTrigger>
+                            <Button type="button" variant="outline">
+                                Close
+                            </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                                <AlertDialogTitle className=" text-destructive">Discard changes?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                    There are unsaved changes in the todo. Do you want to discard those changes?
+                                </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction className="bg-destructive">
+                                    <DialogClose>
+                                        Discard
+                                    </DialogClose>
+                                </AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
+
                     <Button variant="destructive" onClick={onDelete}>Delete</Button>
-                    <Button type="submit" onClick={handleTodoUpdate} disabled={!isTodoUpdated}>Update Changes</Button>
+                    <Button type="submit" onClick={handleTodoUpdateSubmission} disabled={!isTodoUpdated}>Update Changes</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
