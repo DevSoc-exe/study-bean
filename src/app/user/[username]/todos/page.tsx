@@ -2,7 +2,6 @@
 import { ArrowUp, CheckCircle2 } from "lucide-react";
 import { TodoPriority, typeTodo } from "@/types/ToDo";
 import { Progress } from "@/components/ui/progress";
-import { v4 as uuidv4, validate } from "uuid";
 import Todo from "@/components/Todo";
 import { useToast } from "@/components/ui/use-toast";
 import { TodoSchema } from "@/schemas/schemas";
@@ -13,7 +12,7 @@ import { api } from "@/lib/api";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 import Spinner from "@/components/ui/spinner";
-import StaggeredDropDown from "@/components/ui/UserDropdown";
+
 
 const Todos = () => {
   const { toast } = useToast();
