@@ -10,3 +10,9 @@ export interface typeTodo {
   isCompleted: boolean;
   priority: TodoPriority;
 }
+
+export const todoPriorityColorCode = {
+  [TodoPriority.High]: "bg-red-100",
+  [TodoPriority.Medium]: "bg-orange-100",
+  [TodoPriority.Low]: "bg-yellow-100",
+};

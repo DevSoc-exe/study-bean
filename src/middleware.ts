@@ -41,8 +41,5 @@ export function middleware(request: NextRequest) {
   }
 }
 export const config = {
-  matcher: [
-    "/user/:path*/todos",
-    "/user/:path*/pomodoro",
-  ],
+  matcher: ["/user/:path*/todos", "/user/:path*/pomodoro"],
 };
