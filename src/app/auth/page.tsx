@@ -15,6 +15,7 @@ import { api } from "@/lib/api";
 import FormError from "@/components/FormError";
 import { useRouter } from "next/navigation";
 import { useStore } from "@/lib/store";
+import { ReloadIcon } from "@radix-ui/react-icons";
 
 export default function Authentication() {
   const [error, setError] = useState<string | undefined>();
@@ -117,7 +118,6 @@ export default function Authentication() {
     }
     const { email, password } = validatedFields.data;
     const res = await Login(email, password);
-    setIsLoading(false);
     if (!res.success) {
       setError(res.message);
       return;
@@ -129,6 +129,7 @@ export default function Authentication() {
     setUsername(res.user.username);
     setIsLoggedIn(true);
 
+    setIsLoading(false);
     router.push(`/user/${res.user.username}/todos`);
   };
 
@@ -151,7 +152,12 @@ export default function Authentication() {
       <div className="flex w-3/5  items-center justify-center py-12">
         <form
           className="mx-auto grid w-[450px] gap-6 p-4"
-          onSubmit={isRegistered ? loginForm.handleSubmit(handleLogin) : registerForm.handleSubmit(handleRegister)}>
+          onSubmit={
+            isRegistered
+              ? loginForm.handleSubmit(handleLogin)
+              : registerForm.handleSubmit(handleRegister)
+          }
+        >
           <div className="flex flex-col gap-2 text-center">
             <h1 className="text-3xl font-bold">
               {isRegistered ? "Login" : "Register"}
@@ -177,7 +183,7 @@ export default function Authentication() {
                   required
                 />
               </div>
-              <div className="felx flex-col gap-2">
+              <div className="flex flex-col gap-2">
                 <div className="flex items-center mb-1">
                   <Label htmlFor="password">Password</Label>
                   <Link
@@ -199,16 +205,22 @@ export default function Authentication() {
               </div>
               {Object.keys(loginForm.formState.errors).length > 0 && (
                 <div className="text-red-500">
-                  {Object.values(loginForm.formState.errors).map((error, index) => (
-                    <FormError key={index} message={error.message} />
-                  ))}
+                  {Object.values(loginForm.formState.errors).map(
+                    (error, index) => (
+                      <FormError key={index} message={error.message} />
+                    )
+                  )}
                 </div>
               )}
               <Button
+                disabled={isLoading}
                 type="submit"
                 className="w-1/3 mx-auto mt-2"
               >
-                Login
+                {isLoading && (
+                  <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                )}
+                {isLoading ? "Logging In" : "Login"}
               </Button>
             </div>
           ) : (
@@ -261,16 +273,22 @@ export default function Authentication() {
               </div>
               {Object.keys(registerForm.formState.errors).length > 0 && (
                 <div className="text-red-500">
-                  {Object.values(registerForm.formState.errors).map((error, index) => (
-                    <FormError key={index} message={error.message} />
-                  ))}
+                  {Object.values(registerForm.formState.errors).map(
+                    (error, index) => (
+                      <FormError key={index} message={error.message} />
+                    )
+                  )}
                 </div>
               )}
               <Button
+                disabled={isLoading}
                 type="submit"
                 className="w-1/3 mx-auto mt-2"
               >
-                Register
+                {isLoading && (
+                  <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                )}
+                {isLoading ? "Signing Up" : "Sign up"}
               </Button>
             </div>
           )}
@@ -297,7 +315,6 @@ export default function Authentication() {
             )}
           </div>
         </form>
-
       </div>
       <div className="hidden bg-muted lg:block w-2/5">
         <Image

@@ -12,7 +12,8 @@ import { api } from "@/lib/api";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 import Spinner from "@/components/ui/spinner";
-
+import { Separator } from "@/components/ui/separator";
+import { Badge } from "@/components/ui/badge";
 
 const Todos = () => {
   const { toast } = useToast();
@@ -137,15 +138,15 @@ const Todos = () => {
           title: `Updated Your Todo successfully`,
           description: `- ${todo_body}`,
         };
-        setTodos(newTodos)
-        toast(updateMessage)
+        setTodos(newTodos);
+        toast(updateMessage);
       }
     } catch (error) {
-        const updateMessageFailed = {
-          title: `Failed to Update your Todo`,
-          description: `- ${todo_body}`,
-        };
-        toast(updateMessageFailed);
+      const updateMessageFailed = {
+        title: `Failed to Update your Todo`,
+        description: `- ${todo_body}`,
+      };
+      toast(updateMessageFailed);
     }
   };
 
@@ -247,13 +248,19 @@ const Todos = () => {
             className="flex flex-row justify-center items-center gap-2 mt-5"
             onSubmit={addTodoForm.handleSubmit(handleNewTodo)}
           >
-            <input
-              {...addTodoForm.register("todo")}
-              id="todo"
-              type="text"
-              className="px-6 rounded-full py-4 border border-emerald-700 w-full focus:outline-none"
-              placeholder="Enter new task..."
-            />
+            <div className="px-6 rounded-full flex py-4 border border-emerald-700 w-full ">
+              <div>
+
+              </div>
+              <Separator orientation="vertical" />
+              <input
+                {...addTodoForm.register("todo")}
+                id="todo"
+                type="text"
+                className="focus:outline-none w-full"
+                placeholder="Enter new task..."
+              />
+            </div>
 
             <button
               type="submit"

@@ -37,7 +37,7 @@ const Sidebar = () => {
         };
         toast(newTodoTaostMessage);
         setLoggedOut();
-        router.push("/auth");
+        router.replace("/auth");
         return;
       }
     } catch (error) {
