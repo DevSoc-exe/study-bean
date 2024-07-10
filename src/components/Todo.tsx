@@ -1,8 +1,9 @@
-import { Check, Edit, Pencil, Trash, Trash2, X } from "lucide-react";
+import { Check, Pencil, Trash2, X } from "lucide-react";
 import React from "react";
 import Icon from "./Icon";
 import { TodoPriority, todoPriorityColorCode } from "@/types/ToDo";
 import { PriorityDropDwon } from "./PriorityDropDown";
+import { ViewTodoDialog } from "./ViewTodoDialog";
 
 import {
     AlertDialog,
@@ -56,9 +57,7 @@ const Todo = ({
                     </span>
                 </div>
                 <div className="hidden flex-row justify-end items-center gap-1 peer-hover:flex group-hover:flex">
-                    <Icon href="" onclick={onEdit} className="p-1 size-8">
-                        <Pencil className="size-4" />
-                    </Icon>
+                    <ViewTodoDialog todoId={id} todoText={title} priority={priority} onDelete={onDelete} />
                     <AlertDialog>
                         <AlertDialogTrigger>
                             <Icon

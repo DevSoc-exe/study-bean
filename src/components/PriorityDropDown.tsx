@@ -44,9 +44,9 @@ export function PriorityDropDwon({
                 <DropdownMenuLabel>Select Priority</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuRadioGroup value={priority as string} onValueChange={handlePriorityChange}>
-                    <DropdownMenuRadioItem value={TodoPriority.High as string} className="hover:bg-red-300">High</DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value={TodoPriority.Medium as string} className="hover:bg-yellow-300">Medium</DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value={TodoPriority.Low as string} className="hover:bg-green-300">Low</DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem value={TodoPriority.High as string} className="hover:bg-red-100">High</DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem value={TodoPriority.Medium as string} className="hover:bg-yellow-100">Medium</DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem value={TodoPriority.Low as string} className="hover:bg-green-100">Low</DropdownMenuRadioItem>
                 </DropdownMenuRadioGroup>
             </DropdownMenuContent>
         </DropdownMenu>

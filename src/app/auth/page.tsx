@@ -214,7 +214,7 @@ export default function Authentication() {
                     ) : (
                         <div className="flex flex-col gap-4">
                             <div className="gap-2">
-                                    <Label htmlFor="email" className="mb-1 relative left-2 top-[.85rem]">
+                                <Label htmlFor="email" className="mb-1 relative left-2 top-[.85rem]">
                                     Email
                                 </Label>
                                 <Input
@@ -227,7 +227,7 @@ export default function Authentication() {
                                 />
                             </div>
                             <div className="gap-2">
-                                    <Label htmlFor="email" className="mb-1 relative left-2 top-[.85rem]">
+                                <Label htmlFor="email" className="mb-1 relative left-2 top-[.85rem]">
                                     Username
                                 </Label>
                                 <Input
@@ -241,7 +241,7 @@ export default function Authentication() {
                             </div>
                             <div className="felx flex-col gap-2">
                                 <div className="flex items-center mb-1">
-                                        <Label htmlFor="password" className="relative left-2 top-[.85rem]">Password</Label>
+                                    <Label htmlFor="password" className="relative left-2 top-[.85rem]">Password</Label>
                                     <Link
                                         href="/forgot-password"
                                         className="ml-auto inline-block text-sm underline"
