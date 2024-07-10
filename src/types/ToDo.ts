@@ -14,5 +14,5 @@ export interface typeTodo {
 export const todoPriorityColorCode = {
   [TodoPriority.High]: "bg-red-100",
   [TodoPriority.Medium]: "bg-orange-100",
-  [TodoPriority.Low]: "bg-yellow-100",
+  [TodoPriority.Low]: "hover:bg-green-100",
 };
