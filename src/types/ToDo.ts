@@ -4,12 +4,6 @@ export enum TodoPriority {
   Low = "Low",
 }
 
-export interface typeTodo {
-  id: string;
-  todo_body: string;
-  isCompleted: boolean;
-  priority: TodoPriority;
-}
 
 export const todoPriorityColorCode = {
   [TodoPriority.High]: "bg-red-100",
