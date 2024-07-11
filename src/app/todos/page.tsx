@@ -1,62 +1,28 @@
 "use client";
 import { ArrowUp, Check, CheckCircle2, X } from "lucide-react";
 import { useEffect, useState } from "react";
-import { typeTodo } from "@/types/ToDo";
 import { Progress } from "@/components/ui/progress";
 import { v4 as uuidv4 } from "uuid";
 
 const Todos = () => {
-  const todos: typeTodo[] = [
-    {
-      id: "1a79a4d",
-      title: "Read Chapter 1 of Biology",
-      isDone: false,
-    },
-    {
-      id: "8277e09",
-      title: "Practice Spanish Vocabulary",
-      isDone: true,
-    },
-    {
-      id: "3c59dc0",
-      title: "Prepare for Physics Quiz",
-      isDone: false,
-    },
-    {
-      id: "e4da3b7",
-      title: "Organize Study Schedule",
-      isDone: true,
-    },
-    {
-      id: "1679091",
-      title: "Attend Online Lecture",
-      isDone: false,
-    },
-    {
-      id: "8f14e45",
-      title: "Research for Science Project",
-      isDone: true,
-    },
-    {
-      id: "c9f0f89",
-      title: "Study for Upcoming Exams",
-      isDone: false,
-    },
-  ];
 
-  const [todo, setTodo] = useState<typeTodo[]>(todos);
+  const [todo, setTodo] = useState<TypeTodo[]>([]);
   const [newTodo, setNewTodo] = useState<string>("");
   const [totalDone, setTotalDone] = useState<number>();
 
   useEffect(() => {
-    const completed = todo.filter((singleTodo) => singleTodo.isDone !== false);
+    if(todo === undefined) return
+
+    const completed = todo.filter((singleTodo) => singleTodo.isCompleted !== false);
     setTotalDone(completed.length as number);
   }, [todo]);
   const handleTodo = (id: string) => {
     console.log(id);
+    if (todo === undefined) return;
+
     const filteredTodos = todo.map((singleTodo) => {
       if (singleTodo.id == id) {
-        singleTodo.isDone = singleTodo.isDone ? false : true;
+        singleTodo.isCompleted = singleTodo.isCompleted ? false : true;
       }
       return singleTodo;
     });
@@ -78,7 +44,7 @@ const Todos = () => {
           <div className="flex   justify-between">
             <h2 className="text-lg font-medium">Todays Tasks</h2>
             <h2 className="text-lg font-bold text-right">
-              {totalDone != todo.length
+              {todo && totalDone != todo.length
                 ? `${totalDone} / ${todo.length}`
                 : "Done for the day!"}
             </h2>
@@ -96,7 +62,7 @@ const Todos = () => {
             {todo &&
               todo.map(
                 (todo) =>
-                  !todo.isDone && (
+                  !todo.isCompleted && (
                     <div
                       key={todo.id}
                       className="flex flex-row mt-4 px-2 rounded-full justify-start gap-2 items-center py-2 border"
@@ -113,16 +79,16 @@ const Todos = () => {
                         />
                       </div>
                       <span className="font-semibold text-md transition ease-in-out duration-300">
-                        {todo.title}
+                        {todo.todo_body}
                       </span>
                     </div>
                   )
               )}
-            {totalDone != todo.length && <hr className="w-full mt-4"></hr>}
+            {todo && totalDone != todo.length && <hr className="w-full mt-4"></hr>}
             {todo &&
               todo.map(
                 (todo) =>
-                  todo.isDone && (
+                  todo.isCompleted && (
                     <div
                       key={todo.id}
                       className="flex flex-row mt-4 px-2 rounded-full justify-start gap-2 items-center py-2 border bg-green-300"
@@ -139,7 +105,7 @@ const Todos = () => {
                         />
                       </div>
                       <span className="font-semibold line-through text-md transition ease-in-out duration-300">
-                        {todo.title}
+                        {todo.todo_body}
                       </span>
                     </div>
                   )
@@ -150,9 +116,11 @@ const Todos = () => {
             onSubmit={(e) => {
               const newUuid = uuidv4();
               e.preventDefault();
+              if (todo === undefined) return;
+
               setTodo([
                 ...todo,
-                { id: newUuid, title: newTodo, isDone: false },
+                { id: newUuid, todo_body: newTodo, isCompleted: false, priority: "Low" },
               ]);
               setNewTodo("");
             }}
