@@ -1,6 +1,6 @@
 "use client";
 import { ArrowUp, CheckCircle2, ChevronUp, LucideArrowUpNarrowWide } from "lucide-react";
-import { TodoPriority, typeTodo } from "@/types/ToDo";
+import { TodoPriority } from "@/types/ToDo";
 import { Progress } from "@/components/ui/progress";
 import Todo from "@/components/Todo";
 import { useToast } from "@/components/ui/use-toast";
@@ -26,8 +26,8 @@ import {
 
 const Todos = () => {
   const { toast } = useToast();
-  const todos: typeTodo[] = [];
-  const [todo, setTodos] = useState<typeTodo[]>(todos);
+  const todos: TypeTodo[] = [];
+  const [todo, setTodos] = useState<TypeTodo[]>(todos);
   const [newTodo, setNewTodo] = useState<string>("");
   const [totalDone, setTotalDone] = useState<number>();
   const [todoPriorityInDialog, setTodoPriorityInDialog] = useState<TodoPriority>(TodoPriority.Low);
