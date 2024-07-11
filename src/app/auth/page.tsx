@@ -187,7 +187,7 @@ export default function Authentication() {
                 <div className="flex items-center mb-1">
                   <Label htmlFor="password">Password</Label>
                   <Link
-                    href="/forgot-password"
+                    href=""
                     className="ml-auto inline-block text-sm underline"
                   >
                     Forgot your password?
@@ -255,7 +255,7 @@ export default function Authentication() {
                 <div className="flex items-center mb-1">
                   <Label htmlFor="password">Password</Label>
                   <Link
-                    href="/forgot-password"
+                    href=""
                     className="ml-auto inline-block text-sm underline"
                   >
                     Forgot your password?
