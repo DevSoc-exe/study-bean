@@ -53,7 +53,6 @@ const Todos = () => {
 
     useEffect(() => {
         if (data) {
-            console.log(data.data);
             setTodos(data.data.todos)
         }
         const completed = todo.filter((singleTodo) => singleTodo.isCompleted == false)
@@ -64,7 +63,6 @@ const Todos = () => {
         console.log(id);
         const filteredTodos = todo.map((singleTodo) => {
             if (singleTodo.id == id) {
-                console.log("now set to ", singleTodo.isCompleted === true ? false : true);
                 const ToggleResponse = api.put(`/toggleTodo/${singleTodo.id}`, {
                     "isCompleted": singleTodo.isCompleted === true ? false : true
                 })
@@ -80,7 +78,6 @@ const Todos = () => {
             return singleTodo;
         })
         setTodos(filteredTodos)
-        // mutate()
     }
 
 
@@ -109,11 +106,9 @@ const Todos = () => {
         addTodoForm.reset();
     }
 
-
     const handleDeleteTodo = (delId: string, delTitle: string) => {
         const filteredTodoList = todo.filter((singleTodo) => singleTodo.id !== delId)
         const delResponse = api.delete(`/todo/${delId}`)
-        console.log(delResponse)
         const delTodoTaostMessage = {
             title: `Removed from your list.`,
             description: `- ${delTitle}`,
@@ -160,13 +155,13 @@ const Todos = () => {
                     <div className="transition h-full duration-1000 overflow-y-auto scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-primary scrollbar-track-slate-200 pr-2">
                         {todo &&
                             todo.map((todo) => (!todo.isCompleted &&
-                                <Todo title={todo.todo} classname="" priority={todo.priority} id={todo.id} onclick={() => handleTodoBehaviour(todo.id as string)} isDone={todo.isCompleted} onDelete={() => handleDeleteTodo(todo.id as string, todo.todo as string)} />
+                                <Todo title={todo.todo_body} classname="" priority={todo.priority} id={todo.id} onclick={() => handleTodoBehaviour(todo.id as string)} isDone={todo.isCompleted} onDelete={() => handleDeleteTodo(todo.id as string, todo.todo_body as string)} />
                             ))
                         }
                         {totalDone != todo.length && <hr className="w-full mt-4"></hr>}
                         {todo &&
                             todo.map((todo) => (todo.isCompleted &&
-                                <Todo title={todo.todo} classname="" priority={todo.priority} id={todo.id} onclick={() => handleTodoBehaviour(todo.id as string)} isDone={todo.isCompleted} onDelete={() => handleDeleteTodo(todo.id as string, todo.todo as string)} />
+                                <Todo title={todo.todo_body} classname="" priority={todo.priority} id={todo.id} onclick={() => handleTodoBehaviour(todo.id as string)} isDone={todo.isCompleted} onDelete={() => handleDeleteTodo(todo.id as string, todo.todo_body as string)} />
                             ))
                         }
                     </div>

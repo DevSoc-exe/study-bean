@@ -14,95 +14,99 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { api } from "@/lib/api";
 import FormError from "@/components/FormError";
 import { useRouter } from "next/navigation";
+import { useStore } from "@/lib/store";
+import { ReloadIcon } from "@radix-ui/react-icons";
 
 export default function Authentication() {
-  const [error, setError] = useState<string | undefined>();
-  const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
+    const [error, setError] = useState<string | undefined>();
+    const [isLoading, setIsLoading] = useState(false);
+    const router = useRouter();
+    const { setEmail, setIsLoggedIn, setUsername, setUserId } = useStore();
 
-  const registerForm = useForm<z.infer<typeof RegisterFormSchema>>({
-    resolver: zodResolver(RegisterFormSchema),
-    defaultValues: {
-      email: "",
-      username: "",
-      password: "",
-    },
-  });
 
-  const loginForm = useForm<z.infer<typeof LoginSchema>>({
-    resolver: zodResolver(LoginSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
+    const registerForm = useForm<z.infer<typeof RegisterFormSchema>>({
+        resolver: zodResolver(RegisterFormSchema),
+        defaultValues: {
+            email: "",
+            username: "",
+            password: "",
+        },
+    });
 
-  const [isRegistered, setisRegistered] = useState<boolean>(false);
+    const loginForm = useForm<z.infer<typeof LoginSchema>>({
+        resolver: zodResolver(LoginSchema),
+        defaultValues: {
+            email: "",
+            password: "",
+        },
+    });
 
-  const Register = async (
-    email: string,
-    username: string,
-    password: string
-  ) => {
-    try {
-      const res = await api.post("/signup", {
-        email,
-        username,
-        password,
-      });
-      return res;
-    } catch (error: any) {
-      if (!error.response) {
-        return {
-          success: false,
-          message: "Some Error Occured",
-        };
-      }
-      console.log(error.response.data)
-      return error.response.data;
-    }
-  };
+    const [isRegistered, setisRegistered] = useState<boolean>(false);
 
-  const handleRegister = async (data: z.infer<typeof RegisterFormSchema>) => {
-    console.log("in handle register");
-    setIsLoading(true);
-    const validatedFields = RegisterFormSchema.safeParse(data);
+    const Register = async (
+        email: string,
+        username: string,
+        password: string
+    ) => {
+        try {
+            const res = await api.post("/signup", {
+                email,
+                username,
+                password,
+            });
+            return res;
+        } catch (error: any) {
+            if (!error.response) {
+                return {
+                    success: false,
+                    message: "Some Error Occured",
+                };
+            }
+            return error.response.data;
+        }
+    };
 
-    if (!validatedFields.success) {
-      return { error: "Invalid Form Fields" };
-    }
-    const { email, username, password } = validatedFields.data;
-    const res = await Register(email, username, password);
-    setIsLoading(false);
-    console.log("RESPONSE: ", res)
-    if (!res.success) {
-      console.log("HERE", res.message)
-      setError(res.message);
-      return;
-    }
-    setError(undefined)
-    router.push("/todos");
-    return;
-  };
+    const handleRegister = async (data: z.infer<typeof RegisterFormSchema>) => {
+        console.log("in handle register");
+        setError(undefined);
+        setIsLoading(true);
+        const validatedFields = RegisterFormSchema.safeParse(data);
 
-  const Login = async (email: string, password: string) => {
-    setError(undefined);
-    try {
-      const response = await api.post("/login", {
-        email,
-        password,
-      });
-      return response.data;
-    } catch (error: any) {
-      if (!error.response) {
-        return {
-          success: false,
-          message: "Some Error Occured",
-        };
-      }
-      return error.response.data;
-    }
-  };
+        if (!validatedFields.success) {
+            return { error: "Invalid Form Fields" };
+        }
+        const { email, username, password } = validatedFields.data;
+        const res = await Register(email, username, password);
+        setIsLoading(false);
+        if (!res.success) {
+            setError(res.message);
+            return;
+        }
+        console.log(res);
+        router.push(`/todos`);
+        return;
+    };
+
+    const Login = async (email: string, password: string) => {
+        setError(undefined);
+        try {
+            const response = await api.post("/login", {
+                email,
+                password,
+            });
+            if (response.data.success) {
+                return response.data;
+            }
+        } catch (error: any) {
+            if (!error.response) {
+                return {
+                    success: false,
+                    message: "Some Error Occured",
+                };
+            }
+            return error.response.data;
+        }
+    };
 
   const handleLogin = async (data: z.infer<typeof LoginSchema>) => {
     console.log("in handle register");
@@ -114,12 +118,19 @@ export default function Authentication() {
     }
     const { email, password } = validatedFields.data;
     const res = await Login(email, password);
-    setIsLoading(false);
     if (!res.success) {
       setError(res.message);
       return;
     }
-    router.push("/todos");
+
+        localStorage.setItem("uid", res.user.user_id)
+        setEmail(res.user.email);
+        setUserId(res.user.user_id);
+        setUsername(res.user.username);
+        setIsLoggedIn(true);
+
+    setIsLoading(false);
+    router.push(`/user/${res.user.username}/todos`);
   };
 
   return (
@@ -172,7 +183,7 @@ export default function Authentication() {
                   required
                 />
               </div>
-              <div className="felx flex-col gap-2">
+              <div className="flex flex-col gap-2">
                 <div className="flex items-center mb-1">
                   <Label htmlFor="password">Password</Label>
                   <Link
@@ -201,9 +212,15 @@ export default function Authentication() {
                   )}
                 </div>
               )}
-              {error && <FormError message={error} />}
-              <Button type="submit" className="w-1/3 mx-auto mt-2">
-                Login
+              <Button
+                disabled={isLoading}
+                type="submit"
+                className="w-1/3 mx-auto mt-2"
+              >
+                {isLoading && (
+                  <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                )}
+                {isLoading ? "Logging In" : "Login"}
               </Button>
             </div>
           ) : (
@@ -263,9 +280,15 @@ export default function Authentication() {
                   )}
                 </div>
               )}
-              {error && <FormError message={error} />}
-              <Button type="submit" className="w-1/3 mx-auto mt-2">
-                Register
+              <Button
+                disabled={isLoading}
+                type="submit"
+                className="w-1/3 mx-auto mt-2"
+              >
+                {isLoading && (
+                  <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                )}
+                {isLoading ? "Signing Up" : "Sign up"}
               </Button>
             </div>
           )}
