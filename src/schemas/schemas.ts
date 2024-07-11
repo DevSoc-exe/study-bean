@@ -22,7 +22,9 @@ export const RegisterFormSchema = z.object({
     .string({
       required_error: "This field cannot be empty.",
     })
-    .min(6)
+    .min(6, {
+      message: "Password must contain atleast 6 characters."
+    })
     .max(20),
   username: z
     .string({

@@ -204,9 +204,9 @@ export default function Authentication() {
                 />
               </div>
               {Object.keys(loginForm.formState.errors).length > 0 && (
-                <div className="text-red-500">
+                <div className="space-y-1">
                   {Object.values(loginForm.formState.errors).map(
-                    (error, index) => (
+                    (error: any, index) => (
                       <FormError key={index} message={error.message} />
                     )
                   )}
@@ -272,9 +272,9 @@ export default function Authentication() {
                 />
               </div>
               {Object.keys(registerForm.formState.errors).length > 0 && (
-                <div className="text-red-500">
+                <div className="space-y-1">
                   {Object.values(registerForm.formState.errors).map(
-                    (error, index) => (
+                    (error: any, index) => (
                       <FormError key={index} message={error.message} />
                     )
                   )}
