@@ -19,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`relative gap-2 h-screen overflow-y-hidden flex justify-between items-center bg-background ${poppins.className}`}>
+      <body className={`relative gap-2 h-screen overflow-y-hidden flex justify-between items-center px-4 bg-background ${poppins.className}`}>
         {children}
       </body>
     </html>

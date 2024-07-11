@@ -52,7 +52,7 @@ const Sidebar = () => {
   SidebarDropdownElements[0].onClick = logout;
 
   return (
-    <aside className="z-20 h-[calc(100vh-1.5rem)] backdrop-blur w-16 left-3 p-2 rounded-xl border border-l-0 border-t-0 flex flex-col py-4 justify-between items-center shadow-slightHover">
+    <div className="z-20 h-[calc(100vh-1.5rem)] backdrop-blur w-16 left-3 rounded-xl border border-l-0 border-t-0 flex flex-col py-4 px-1 justify-between items-center shadow-slightHover">
       <div className="mx-auto relative space-y-2">
         <div onClick={() => {
           console.log("click")
@@ -93,7 +93,7 @@ const Sidebar = () => {
           <Github color="black" />
         </Icon>
       </div>
-    </aside>
+    </div>
   );
 };
 

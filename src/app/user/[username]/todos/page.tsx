@@ -67,7 +67,7 @@ const Todos = () => {
       setTodos(data.data.todos);
     }
     const completed = todo.filter(
-      (singleTodo) => singleTodo.isCompleted == false
+      (singleTodo) => singleTodo.isCompleted == true
     );
     setTotalDone(completed.length as number);
   }, [data]);
@@ -76,10 +76,10 @@ const Todos = () => {
     console.log(id);
     const filteredTodos = todo.map((singleTodo) => {
       if (singleTodo.id == id) {
-        console.log(
-          "now set to ",
-          singleTodo.isCompleted === true ? false : true
-        );
+        // console.log(
+        //   "now set to ",
+        //   singleTodo.isCompleted === true ? false : true
+        // );
         const ToggleResponse = api.put(`/toggleTodo/${singleTodo.id}`, {
           isCompleted: singleTodo.isCompleted === true ? false : true,
         });
@@ -101,6 +101,10 @@ const Todos = () => {
       }
       return singleTodo;
     });
+    const completed = todo.filter(
+      (singleTodo) => singleTodo.isCompleted == true
+    );
+    setTotalDone(completed.length as number);
     setTodos(filteredTodos);
     // mutate()
   };

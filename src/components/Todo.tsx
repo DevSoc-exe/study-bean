@@ -50,9 +50,9 @@ const Todo = ({
                         className="p-1 border hover:bg-emerald-400 rounded-full size-8 flex items-center justify-center transition-colors hover:cursor-pointer hover:border-none"
                         onClick={onclick}
                     >
-                        <Check color="white" strokeWidth={4} className="size-5 peer" />
+                        <Check color="#3f3f3f" strokeWidth={2.5} className="size-5 peer" />
                     </div>
-                    <span className="font-semibold text-md transition ease-in-out duration-300">
+                    <span className="font-[550] text-sm transition ease-in-out duration-300">
                         {title}
                     </span>
                 </div>
@@ -90,7 +90,7 @@ const Todo = ({
         return (
             <div
                 key={id}
-                className="flex flex-row mt-4 px-1 rounded-full justify-between gap-2 items-center py-1 peer group border bg-green-300"
+                className="flex flex-row mt-4 px-1 rounded-full justify-between gap-2 items-center py-[0.15rem] peer group border bg-green-300"
             >
                 <div className="flex flex-row justify-start items-center gap-2">
                     <div

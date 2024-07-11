@@ -24,12 +24,14 @@ export default function PlaygroundLayout({
     const username = params.username as string
     return (
         <html lang="en">
-            <body className={`px-4 relative gap-2 h-screen overflow-y-hidden flex justify-between items-center bg-background ${poppins.className}`}>
-                <Sidebar />
-                <GroupSidebar username={username} />
-                {children}
-                <RightSidebar />
-                <Toaster />
+            <body className={`relative gap-2 h-screen overflow-y-hidden flex justify-between items-center bg-background ${poppins.className}`}>
+                
+                    <Sidebar />
+                    <GroupSidebar username={username} />
+                    {children}
+                    <RightSidebar />
+                    <Toaster />
+                
             </body>
         </html>
     )
